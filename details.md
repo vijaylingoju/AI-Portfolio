@@ -73,6 +73,8 @@ Aspiring Software Developer with a strong foundation in full-stack development, 
 - Exploring Generative AI and Prompt Engineering  
 - Competitive Programming  
 - Listening to Music
+- Watching Movies and Series
+- Playing Cricket
 ---
 ## Languages Known
 - Telugu  

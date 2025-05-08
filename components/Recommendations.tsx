@@ -1,5 +1,6 @@
 "use client"
 import { Button } from "./ui/button"
+import Image from "next/image"
 
 const recommendations: { name: string; value: string }[] = [
     { name: "🛠️ Projects", value: "projects" },
@@ -15,7 +16,12 @@ interface RecommendationsProps {
 
 export default function Recommendations({ handleRecommendation }: RecommendationsProps) {
     return (
-        <div className="flex w-full gap-2 items-center justify-start">
+        <>
+            <div className="flex w-full gap-2 items-center justify-start">
+            <a href="/resume/CurrentUpdatedResume.pdf" target="_blank" download="Vijay_Lingoju_Resume.pdf" className="flex w-full gap-2 items-center">
+                <Image src="/resume.png" alt="Resume" width={20} height={20} />
+                Download Resume
+            </a>
             {recommendations.map((recommendation, index) => (
                 <Button key={index} variant="outline" className="px-2 py-1 hover:bg-primary/40 cursor-pointer" onClick={() => {
                     handleRecommendation(recommendation.value);
@@ -23,6 +29,7 @@ export default function Recommendations({ handleRecommendation }: Recommendation
                     <p className="text-sm font-medium">{recommendation.name}</p>
                 </Button>
             ))}
-        </div>
+            </div>
+        </>
     )
 }
