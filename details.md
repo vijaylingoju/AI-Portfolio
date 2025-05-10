@@ -46,7 +46,7 @@ Aspiring Software Developer with a strong foundation in full-stack development, 
   Mastered C++ programming and gained proficiency in complex algorithms.
 ---
 ## Achievements
-- Solved 1000+ problems on LeetCode, GeeksforGeeks, and CodeChef.  
+- Solved 1200+ problems on LeetCode, GeeksforGeeks, and CodeChef.  
 - 5-star badges in C++, Python, SQL & Problem-Solving on HackerRank.  
 - 2-Star coder at CodeChef.  
 - Won 3rd place in the college project space for the CodeX App.  
@@ -93,8 +93,6 @@ Aspiring Software Developer with a strong foundation in full-stack development, 
   [Profile Link](https://www.hackerrank.com/profile/vijaylingoju26)
 - **Codeforces** 
   [Profile Link](https://codeforces.com/profile/vijay_260104)
-- **Codemind** 
-  [Profile Link](https://www.hackerrank.com/profile/vijaylingoju26)
 
 ## Coding Profiles Statistics
 - **Codolio** 
