@@ -14,8 +14,9 @@ export default function AdminPage() {
         if (!response.ok) {
           router.push('/admin/login');
         }
-      } catch (error) {
-        router.push('/admin/login');
+      } catch {
+        console.error('Error fetching analytics');
+        return { props: { analytics: null } };
       }
     };
 

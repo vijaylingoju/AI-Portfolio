@@ -29,8 +29,9 @@ export default function LoginPage() {
       }
 
       router.push('/admin');
-    } catch (err) {
-      setError('Invalid username or password');
+    } catch {
+      console.error('Login failed');
+      setError('Invalid credentials');
     } finally {
       setLoading(false);
     }

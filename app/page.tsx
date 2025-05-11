@@ -10,8 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useChat } from "@ai-sdk/react";
 import { ArrowUp } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import VisitorStats from "@/components/VisitorStats";
+import { useEffect, useRef, useState, useCallback } from "react";
 import VisitorTracker from "@/components/VisitorTracker";
 
 
@@ -28,17 +27,21 @@ export default function Home() {
 
   const [tools, setTools] = useState<Tool[]>([]);
 
+  const fetchTools = useCallback(async () => {
+    const response = await fetch("/api/chat");
+    const data = await response.json();
+    setTools(data);
+  }, []);
+
   useEffect(() => {
     if (messages.length === 0) {
       append({
         role: 'user',
         content: 'Hello, Who are you?',
       });
-      fetch("/api/chat")
-        .then((res) => res.json())
-        .then((data) => setTools(data));
+      fetchTools();
     }
-  }, []);
+  }, [messages.length, append, fetchTools]);
 
   // Auto-scroll when messages update (on streaming or finished)
   useEffect(() => {

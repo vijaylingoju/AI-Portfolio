@@ -12,7 +12,7 @@ async function readDb(): Promise<VisitorData> {
   try {
     const data = await fs.readFile(DB_PATH, 'utf-8');
     return JSON.parse(data);
-  } catch (error) {
+  } catch {
     // If file doesn't exist, return default data
     return {
       totalVisits: 0,
