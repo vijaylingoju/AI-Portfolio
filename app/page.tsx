@@ -10,7 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useChat } from "@ai-sdk/react";
 import { ArrowUp } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import VisitorTracker from "@/components/VisitorTracker";
 
 
 interface Tool {
@@ -26,17 +27,21 @@ export default function Home() {
 
   const [tools, setTools] = useState<Tool[]>([]);
 
+  const fetchTools = useCallback(async () => {
+    const response = await fetch("/api/chat");
+    const data = await response.json();
+    setTools(data);
+  }, []);
+
   useEffect(() => {
     if (messages.length === 0) {
       append({
         role: 'user',
         content: 'Hello, Who are you?',
       });
-      fetch("/api/chat")
-        .then((res) => res.json())
-        .then((data) => setTools(data));
+      fetchTools();
     }
-  }, []);
+  }, [messages.length, append, fetchTools]);
 
   // Auto-scroll when messages update (on streaming or finished)
   useEffect(() => {
@@ -63,14 +68,12 @@ export default function Home() {
   return (
     // Use min-h-[88vh] instead of h-[88vh] to allow content to grow if needed
     <div className='flex justify-center items-end min-h-[88vh] w-full'>
+      <VisitorTracker />
       <MaxWidthWrapper>
-        {/* Main content container */}
-        <div className='flex flex-col w-full h-full justify-center items-center'>
-          {
-            <ScrollArea
-              className='flex flex-col justify-start md:max-h-[59vh] max-h-[64vh] overflow-y-auto w-full md:w-4/5 md:px-3 rounded-md mb-4'
-            >
-              {/* Render messages */}
+        <div className="flex flex-col h-[calc(100vh-80px)]">
+          
+          <div className='flex-1 overflow-hidden w-full'>
+            <ScrollArea className='flex flex-col justify-start md:max-h-[59vh] max-h-[64vh] overflow-y-auto w-full md:w-4/5 md:px-3 rounded-md mb-4 mx-auto'>
               {messages.map((chatMessage) => (
                 <ChatBubble
                   key={chatMessage.id}
@@ -81,9 +84,9 @@ export default function Home() {
               {/* Dummy div to scroll into view */}
               <div ref={bottomRef} />
             </ScrollArea>
-          }
+          </div>
           {/* Input area card */}
-          <Card className="shadow-2xl gap-0 flex flex-col md:w-4/5 w-full items-center justify-center py-2 px-2 space-x-0 space-y-0">
+          <Card className="shadow-2xl gap-0 flex flex-col md:w-4/5 w-full items-center justify-center py-2 px-2 space-x-0 space-y-0 mx-auto">
             <div className="flex space-x-2 items-center justify-start w-full px-3">
               {
                 tools.length > 0 && (
@@ -109,52 +112,52 @@ export default function Home() {
                   </>
                 )
               }
-        </div>
-        {/* Text input area */}
-        <Textarea
-          placeholder="Ask anything about Vijay"
-          value={input}
-          disabled={status === 'streaming' || status === 'submitted'}
-          onChange={handleInputChange}
-          ref={inputRef}
-          onKeyDown={(e) => {
-            // Submit on Enter unless Shift is pressed
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault(); // Prevent newline
-              if (input.trim()) {
-                handleSubmit();
-              }
-            }
-          }}
-          rows={1}
-          className="max-h-[20vh] m-0 w-full dark:bg-transparent bg-transparent shadow-none border-none resize-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-base p-3"
-        />
-        {/* Submit button */}
-        <div className='flex w-full items-center md:justify-between justify-end'>
-          {/* Recommendation chips (hidden on small screens) */}
-          <div className='w-full overflow-x-auto p-3 hidden md:block'>
-            {/* Make recommendations scrollable horizontally if they overflow */}
-            <div className="flex space-x-2 whitespace-nowrap">
-              <Recommendations handleRecommendation={handleRecommendation} />
             </div>
-          </div>
-          {/* Use form association for the button if Textarea is inside a form */}
-          <Button
-            type="submit"
-            className='disabled:opacity-50 cursor-pointer'
-            disabled={!input.trim() || status === 'streaming' || status === 'submitted'}
-            onClick={() => {
-              if (input.trim()) {
-                handleSubmit();
-              }
-            }}
-          >
-            {status === 'streaming' || status === 'submitted' ? <Loader /> : <ArrowUp className='w-5 h-5' />}
-          </Button>
+            {/* Text input area */}
+            <Textarea
+              placeholder="Ask anything about Vijay"
+              value={input}
+              disabled={status === 'streaming' || status === 'submitted'}
+              onChange={handleInputChange}
+              ref={inputRef}
+              onKeyDown={(e) => {
+                // Submit on Enter unless Shift is pressed
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault(); // Prevent newline
+                  if (input.trim()) {
+                    handleSubmit();
+                  }
+                }
+              }}
+              rows={1}
+              className="max-h-[20vh] m-0 w-full dark:bg-transparent bg-transparent shadow-none border-none resize-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 text-base p-3"
+            />
+            {/* Submit button */}
+            <div className='flex w-full items-center md:justify-between justify-end'>
+              {/* Recommendation chips (hidden on small screens) */}
+              <div className='w-full overflow-x-auto p-3 hidden md:block'>
+                {/* Make recommendations scrollable horizontally if they overflow */}
+                <div className="flex space-x-2 whitespace-nowrap">
+                  <Recommendations handleRecommendation={handleRecommendation} />
+                </div>
+              </div>
+              {/* Use form association for the button if Textarea is inside a form */}
+              <Button
+                type="submit"
+                className='disabled:opacity-50 cursor-pointer'
+                disabled={!input.trim() || status === 'streaming' || status === 'submitted'}
+                onClick={() => {
+                  if (input.trim()) {
+                    handleSubmit();
+                  }
+                }}
+              >
+                {status === 'streaming' || status === 'submitted' ? <Loader /> : <ArrowUp className='w-5 h-5' />}
+              </Button>
+            </div>
+          </Card>
         </div>
-      </Card>
+      </MaxWidthWrapper>
     </div>
-      </MaxWidthWrapper >
-    </div >
   );
 }
