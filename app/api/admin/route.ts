@@ -17,13 +17,20 @@ export async function POST(request: Request) {
     }
 
     if (username === USERNAME && password === PASSWORD) {
-      const response = NextResponse.redirect(new URL('/admin-panel', request.url));
+      const response = new NextResponse(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
       response.cookies.set('admin-auth', 'true', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: 'lax',
         maxAge: 3600 // 1 hour
       });
+      
       return response;
     }
 

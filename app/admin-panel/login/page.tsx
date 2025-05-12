@@ -22,13 +22,17 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
+        credentials: 'include' // Important for cookies to be sent/received
       });
 
-      if (!response.ok) {
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
         throw new Error('Invalid credentials');
       }
 
-      router.push('/admin-panel');
+      // Force a full page reload to ensure the cookie is properly set
+      window.location.href = '/admin-panel';
     } catch {
       console.error('Login failed');
       setError('Invalid credentials');
