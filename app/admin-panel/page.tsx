@@ -12,7 +12,7 @@ export default function AdminPage() {
       try {
         const response = await fetch('/api/admin/check-auth');
         if (!response.ok) {
-          router.push('/admin/login');
+          router.push('/admin-panel/login');
         }
       } catch {
         console.error('Error fetching analytics');

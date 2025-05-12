@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     }
 
     if (username === USERNAME && password === PASSWORD) {
-      const response = NextResponse.redirect(new URL('/admin', request.url));
+      const response = NextResponse.redirect(new URL('/admin-panel', request.url));
       response.cookies.set('admin-auth', 'true', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

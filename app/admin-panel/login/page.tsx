@@ -16,7 +16,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/admin/', {
+      const response = await fetch('/api/admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default function LoginPage() {
         throw new Error('Invalid credentials');
       }
 
-      router.push('/admin');
+      router.push('/admin-panel');
     } catch {
       console.error('Login failed');
       setError('Invalid credentials');
