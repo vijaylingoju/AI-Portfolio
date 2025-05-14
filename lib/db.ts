@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const DB_PATH = path.join(process.cwd(), 'lib', 'data', 'visitors.json');
+// const DB_PATH = path.join(process.cwd(), 'lib', 'data', 'visitors.json');
+const DB_PATH = path.join(__dirname, 'data', 'visitors.json');
 
 interface VisitorData {
   totalVisits: number;
