@@ -18,7 +18,7 @@ export default function Recommendations({ handleRecommendation }: Recommendation
     return (
         <>
             <div className="flex w-full gap-2 items-center justify-start">
-            <a href="/resume/VIJAYLINGOJU-CV.pdf" target="_blank" download="VIJAYLINGOJU-CV.pdf" className="flex w-full gap-2 items-center">
+            <a href="/resume/VIJAYLINGOJU-CV2.pdf" target="_blank" download="VIJAYLINGOJU-CV.pdf" className="flex w-full gap-2 items-center">
                 <Image src="/resume.png" alt="Resume" width={20} height={20} />
                 Download Resume
             </a>
